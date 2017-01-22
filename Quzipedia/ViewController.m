@@ -20,9 +20,24 @@
     TextDownloader *obj=[TextDownloader sharedInstance];
     [obj DownloadData];
     obj.delegate=self;
-    
+    [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
    
 }
+
+- (void)rotateLayerInfinite:(CALayer *)layer
+{
+    CABasicAnimation *rotation;
+    rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    rotation.fromValue = [NSNumber numberWithFloat:0];
+    rotation.toValue = [NSNumber numberWithFloat:(2 * M_PI)];
+    rotation.duration = 1.0f; 
+    rotation.repeatCount = HUGE_VALF;
+    [layer removeAllAnimations];
+    [layer addAnimation:rotation forKey:@"Spin"];
+    //[_activityIndicatorImage.layer removeAllAnimations];
+}
+
+
 
 -(void)DownLoadCompletedWithData:(NSString *)WikiString
 {

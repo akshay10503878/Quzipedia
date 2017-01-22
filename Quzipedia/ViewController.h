@@ -12,6 +12,7 @@
 
 @interface ViewController : UIViewController<DownloadCompleteDelegate>
 
+@property (weak, nonatomic) IBOutlet UIImageView *ActivityIndicatorImage;
 
 @end
 
