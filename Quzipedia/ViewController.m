@@ -50,7 +50,7 @@
     
         [self.ActivityIndicatorImage.layer removeAllAnimations];
         self.WikiTextView.text=WikiString;
-
+        [TextParser ParseWikiText:WikiString];
         
     });
     

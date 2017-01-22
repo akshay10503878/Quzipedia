@@ -1,5 +1,5 @@
 //
-//  TextParser.h
+//  NSArray+Shuffling.h
 //  Quzipedia
 //
 //  Created by akshay bansal on 1/22/17.
@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TextParser : NSObject
-
-+(void)ParseWikiText:(NSString *)wikiText;
-
+@interface NSMutableArray (Shuffling)
+-(NSArray*)shuffle;
 @end

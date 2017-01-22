@@ -7,32 +7,74 @@
 //
 
 #import "TextParser.h"
+#import "WikiQuizContent.h"
+#import "NSMutableArray+Shuffling.h"
 
 @implementation TextParser
 
--(void)ParseWikiText:(NSString *)wikiText{
++(void)ParseWikiText:(NSString *)wikiText{
 
+    //For Split into Sentences
     
+    __block NSMutableArray *selectedWords=[[NSMutableArray alloc] init];
+    __block NSMutableArray *selectedwordRanges=[[NSMutableArray alloc] init];
     
-    NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSArray arrayWithObject:NSLinguisticTagSchemeLexicalClass] options:~NSLinguisticTaggerOmitWords];
-    [tagger setString:wikiText];
-    __block int i=0;
-    [tagger enumerateTagsInRange:NSMakeRange(0, [wikiText length])
-                          scheme:NSLinguisticTagSchemeLexicalClass
-                         options:~NSLinguisticTaggerOmitWords
-                      usingBlock:^(NSString *tag, NSRange tokenRange, NSRange sentenceRange, BOOL *stop) {
-                          
-                          if ([tag isEqualToString:@"Noun"]) {
-                              NSLog(@"found: %@ (%@)", [wikiText substringWithRange:tokenRange], tag);
-                              i=i+1;
+    NSRange range = {0, [wikiText length]};
+    
+    [wikiText enumerateSubstringsInRange:range options:NSStringEnumerationBySentences usingBlock:^(NSString *sentence, NSRange substringRange, NSRange enclosingRange, BOOL *stopSentence) {
+    
+        //For spliting into words
+        NSLinguisticTagger *tagger = [[NSLinguisticTagger alloc] initWithTagSchemes:[NSArray arrayWithObject:NSLinguisticTagSchemeLexicalClass] options:~NSLinguisticTaggerOmitWords];
+        [tagger setString:sentence];
+        
+        __block NSMutableArray *words=[[NSMutableArray alloc] init];
+        __block NSRange wordRange;
+        wordRange.location=substringRange.location;
+        [tagger enumerateTagsInRange:NSMakeRange(0, [sentence length])
+                              scheme:NSLinguisticTagSchemeLexicalClass
+                             options:~NSLinguisticTaggerOmitWords
+                          usingBlock:^(NSString *tag, NSRange tokenRange, NSRange sentenceRange, BOOL *stop) {
                               
-                          }
-                      }];
+                              if ([tag isEqualToString:@"Noun"]) {
+                                  if (![words containsObject:[sentence substringWithRange:tokenRange]]) {
+                                      [words addObject:[sentence substringWithRange:tokenRange]];
+                                  }
+                                                             }
+                          }];
+        
+        if([words count]>0)
+        {
+            while (true) {
+                NSString *selectedword=[words objectAtIndex:arc4random()%[words count]];
+                if (![selectedWords containsObject:selectedword]) {
+                    [selectedWords addObject:selectedword];
+                    wordRange.length=[selectedword length];
+                    wordRange.location=wordRange.location+[sentence rangeOfString:selectedword].location;
+                    [selectedwordRanges addObject:[NSValue valueWithRange:wordRange]];
+                    break;
+                }
+            }
+            
+        }
+        
+    }];
+    
+    WikiQuizContent *WQC=[WikiQuizContent sharedInstance];
+    WQC.answers=selectedWords;
+    
+    WQC.shuffledOptions=[selectedWords shuffle];
+    WQC.answerRanges=selectedwordRanges;
+    
+    NSLog(@"%@",WQC.answers);
+    NSLog(@"%@", WQC.shuffledOptions);
+    NSLog(@"%@",WQC.answerRanges);
+    NSLog(@"%@",wikiText);
     
     
     
     
-    NSLog(@"%d",i);
+    
+
 
 }
 

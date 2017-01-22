@@ -10,9 +10,8 @@
 
 @interface WikiQuizContent : NSObject
 @property (nonatomic,strong) NSArray *answers;
-@property (nonatomic,strong) NSArray *options;
-@property (nonatomic,strong) NSArray *startRanges;
-@property (nonatomic,strong) NSArray *endRanges;
+@property (nonatomic,assign) NSArray *answerRanges;
+@property (nonatomic,strong) NSArray *shuffledOptions;
 @property (nonatomic,strong) NSString *wikiText;
 +(instancetype)sharedInstance;
 @end

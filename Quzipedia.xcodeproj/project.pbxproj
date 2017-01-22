@@ -26,6 +26,7 @@
 		305C937E1E353AC5006810A3 /* fail2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 305C937D1E353AC5006810A3 /* fail2.jpg */; };
 		305C93801E353ACA006810A3 /* fail1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 305C937F1E353ACA006810A3 /* fail1.jpeg */; };
 		305C93821E353C77006810A3 /* logo2.png in Resources */ = {isa = PBXBuildFile; fileRef = 305C93811E353C77006810A3 /* logo2.png */; };
+		305C93851E354BB7006810A3 /* NSMutableArray+Shuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C93841E354BB7006810A3 /* NSMutableArray+Shuffling.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,8 @@
 		305C937D1E353AC5006810A3 /* fail2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fail2.jpg; sourceTree = "<group>"; };
 		305C937F1E353ACA006810A3 /* fail1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fail1.jpeg; sourceTree = "<group>"; };
 		305C93811E353C77006810A3 /* logo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo2.png; sourceTree = "<group>"; };
+		305C93831E354BB7006810A3 /* NSMutableArray+Shuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Shuffling.h"; sourceTree = "<group>"; };
+		305C93841E354BB7006810A3 /* NSMutableArray+Shuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Shuffling.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +145,8 @@
 				305C936A1E352D2A006810A3 /* TextParser.m */,
 				305C936C1E352F23006810A3 /* WikiQuizContent.h */,
 				305C936D1E352F23006810A3 /* WikiQuizContent.m */,
+				305C93831E354BB7006810A3 /* NSMutableArray+Shuffling.h */,
+				305C93841E354BB7006810A3 /* NSMutableArray+Shuffling.m */,
 			);
 			path = Quzipedia;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				305C933B1E33C1B7006810A3 /* ViewController.m in Sources */,
 				305C93381E33C1B7006810A3 /* AppDelegate.m in Sources */,
 				305C936E1E352F23006810A3 /* WikiQuizContent.m in Sources */,
+				305C93851E354BB7006810A3 /* NSMutableArray+Shuffling.m in Sources */,
 				305C936B1E352D2A006810A3 /* TextParser.m in Sources */,
 				305C93351E33C1B7006810A3 /* main.m in Sources */,
 				305C93681E33C474006810A3 /* TextDownloader.m in Sources */,
