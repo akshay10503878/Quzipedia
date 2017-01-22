@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol DownloadCompleteDelegate <NSObject>
-- (void)DownLoadCompletedWithData:(NSArray *)data;
+- (void)DownLoadCompletedWithData:(NSString *)WikiString;
 @end
 
 

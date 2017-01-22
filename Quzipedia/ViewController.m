@@ -17,7 +17,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    TextDownloader *obj=[TextDownloader sharedInstance];
+    [obj DownloadData];
+    obj.delegate=self;
+    
+   
 }
+
+-(void)DownLoadCompletedWithData:(NSString *)WikiString
+{
+    
+
+
+}
+
 
 
 - (void)didReceiveMemoryWarning {

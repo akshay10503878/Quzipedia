@@ -22,13 +22,9 @@
 -(void)DownloadData
 {
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSURL *url = [NSURL URLWithString:@"https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=?&lang=en-us"];
+    NSURL *url = [NSURL URLWithString:@"https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=extracts&exsentences=3&explaintext="];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    /*
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    */
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         if (!error && data!=nil)
@@ -40,15 +36,18 @@
                 
                 if (jsonError) {
                     NSLog(@"Json Parsing Error");
-                    //we have to remove this line
-                    //As this api is not sending a valid json multiple time it is added
-                    [self DownloadData];
                 }
                 else {
-                    if ([[jsonResponse allKeys] containsObject:@"items"]) {
+                    if ([[jsonResponse allKeys] containsObject:@"query"]) {
                         
-                        [self.delegate DownLoadCompletedWithData:[self returnParsedData:[jsonResponse objectForKey:@"items"]]];
+                        NSDictionary *pages= [[jsonResponse objectForKey:@"query"] objectForKey:@"pages"];
+                        NSString *WikiExtract=[[pages objectForKey:[[pages allKeys] objectAtIndex:0]] objectForKey:@"extract"];
+
+                        NSLog(@"%@",WikiExtract);
+                        [self.delegate DownLoadCompletedWithData:WikiExtract];
+
                     }
+                    
                 }
             }
             else
@@ -66,11 +65,6 @@
 }
 
 
--(NSArray*)returnParsedData:(NSArray *)ImageItems
-{
-    
-    
-}
 
 
 @end

@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TextDownloader.h"
+#import "TextParser.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<DownloadCompleteDelegate>
 
 
 @end

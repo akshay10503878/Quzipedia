@@ -16,6 +16,8 @@
 		305C934E1E33C1B7006810A3 /* QuzipediaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C934D1E33C1B7006810A3 /* QuzipediaTests.m */; };
 		305C93591E33C1B7006810A3 /* QuzipediaUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C93581E33C1B7006810A3 /* QuzipediaUITests.m */; };
 		305C93681E33C474006810A3 /* TextDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C93671E33C474006810A3 /* TextDownloader.m */; };
+		305C936B1E352D2A006810A3 /* TextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C936A1E352D2A006810A3 /* TextParser.m */; };
+		305C936E1E352F23006810A3 /* WikiQuizContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C936D1E352F23006810A3 /* WikiQuizContent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,10 @@
 		305C935A1E33C1B7006810A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		305C93661E33C474006810A3 /* TextDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextDownloader.h; sourceTree = "<group>"; };
 		305C93671E33C474006810A3 /* TextDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextDownloader.m; sourceTree = "<group>"; };
+		305C93691E352D2A006810A3 /* TextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextParser.h; sourceTree = "<group>"; };
+		305C936A1E352D2A006810A3 /* TextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextParser.m; sourceTree = "<group>"; };
+		305C936C1E352F23006810A3 /* WikiQuizContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiQuizContent.h; sourceTree = "<group>"; };
+		305C936D1E352F23006810A3 /* WikiQuizContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiQuizContent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,10 @@
 				305C93331E33C1B7006810A3 /* Supporting Files */,
 				305C93661E33C474006810A3 /* TextDownloader.h */,
 				305C93671E33C474006810A3 /* TextDownloader.m */,
+				305C93691E352D2A006810A3 /* TextParser.h */,
+				305C936A1E352D2A006810A3 /* TextParser.m */,
+				305C936C1E352F23006810A3 /* WikiQuizContent.h */,
+				305C936D1E352F23006810A3 /* WikiQuizContent.m */,
 			);
 			path = Quzipedia;
 			sourceTree = "<group>";
@@ -280,6 +290,8 @@
 			files = (
 				305C933B1E33C1B7006810A3 /* ViewController.m in Sources */,
 				305C93381E33C1B7006810A3 /* AppDelegate.m in Sources */,
+				305C936E1E352F23006810A3 /* WikiQuizContent.m in Sources */,
+				305C936B1E352D2A006810A3 /* TextParser.m in Sources */,
 				305C93351E33C1B7006810A3 /* main.m in Sources */,
 				305C93681E33C474006810A3 /* TextDownloader.m in Sources */,
 			);
