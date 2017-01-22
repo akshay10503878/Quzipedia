@@ -60,6 +60,12 @@
                                     <constraint firstAttribute="height" constant="55" id="nle-oi-tO7"/>
                                 </constraints>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Blair Vincent Adams (born 8 September 1991) is an English left back. He graduated from Sunderland's Academy in summer 2010." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SCi-Ws-QSc">
+                                <rect key="frame" x="10" y="85" width="355" height="572"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <imageView userInteractionEnabled="NO" alpha="0.10000000000000001" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo2.png" translatesAutoresizingMaskIntoConstraints="NO" id="ePv-cz-zZo">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
@@ -69,14 +75,21 @@
                             <constraint firstItem="qmc-oz-hVx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="1gj-Cs-V5w"/>
                             <constraint firstItem="ePv-cz-zZo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="29p-ve-VKD"/>
                             <constraint firstAttribute="trailing" secondItem="qmc-oz-hVx" secondAttribute="trailing" id="BGi-EY-ok8"/>
+                            <constraint firstAttribute="trailing" secondItem="SCi-Ws-QSc" secondAttribute="trailing" constant="10" id="ELm-FV-ftG"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="SCi-Ws-QSc" secondAttribute="bottom" constant="10" id="EZV-A8-5GN"/>
                             <constraint firstItem="ePv-cz-zZo" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="HvN-3p-L0v"/>
+                            <constraint firstItem="SCi-Ws-QSc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="Mbp-Zj-Con"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ePv-cz-zZo" secondAttribute="bottom" id="RpJ-4j-jye"/>
+                            <constraint firstItem="SCi-Ws-QSc" firstAttribute="top" secondItem="qmc-oz-hVx" secondAttribute="bottom" constant="10" id="THq-TW-ATF"/>
                             <constraint firstAttribute="trailing" secondItem="ePv-cz-zZo" secondAttribute="trailing" id="YKy-W4-6JY"/>
                             <constraint firstItem="qmc-oz-hVx" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mxX-rC-UeA"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="ActivityIndicatorImage" destination="ePv-cz-zZo" id="rMg-Is-0cs"/>
+                        <outlet property="RefreshQuiz" destination="lDz-mr-SRE" id="vjP-JQ-8ez"/>
+                        <outlet property="Submit" destination="3va-v1-9uX" id="Xne-FA-OTm"/>
+                        <outlet property="WikiTextView" destination="SCi-Ws-QSc" id="Lex-ht-IaF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

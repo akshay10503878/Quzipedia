@@ -13,6 +13,9 @@
 @interface ViewController : UIViewController<DownloadCompleteDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *ActivityIndicatorImage;
+@property (strong, nonatomic) IBOutlet UITextView *WikiTextView;
+@property (strong, nonatomic) IBOutlet UIButton *Submit;
+@property (strong, nonatomic) IBOutlet UIButton *RefreshQuiz;
 
 @end
 
