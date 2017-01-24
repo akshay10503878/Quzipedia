@@ -44,7 +44,6 @@
                         NSString *WikiExtract=[[pages objectForKey:[[pages allKeys] objectAtIndex:0]] objectForKey:@"extract"];
                         
                         if ([WikiExtract length]>2000) {
-                            WikiExtract=[WikiExtract substringWithRange:NSMakeRange(0, 2000)];
                             [self.delegate DownLoadCompletedWithData:WikiExtract];
                         }
                         else

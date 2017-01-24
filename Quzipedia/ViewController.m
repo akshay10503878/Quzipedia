@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "WikiQuizContent.h"
 #import "OptionsTableViewCell.h"
+#import "STPopup/STPopup.h"
+#import "PopupViewController.h"
 
 @interface ViewController ()
 {
@@ -45,10 +47,11 @@
     [alert show];
     
     */
+    /*
     UIAlertController * alert=   [UIAlertController
                                   alertControllerWithTitle:@"Title"
                                   message:@"Welcome"
-                                  preferredStyle:UIAlertControllerStyleActionSheet];
+                                  preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* okButton = [UIAlertAction
                                actionWithTitle:@"OK"
@@ -59,13 +62,22 @@
                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                    [self.RefreshQuiz sendActionsForControlEvents:UIControlEventTouchUpInside];
                                    
-                               }];
-    //[okButton setValue:[[UIImage imageNamed:@"kaga.jpg"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
-    
+
+   // [okButton setValue:[[UIImage imageNamed:@"pass.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+
     [alert addAction:okButton];
-    [alert addchi]
-    [self presentViewController:alert animated:YES completion:nil];
     
+    [self presentViewController:alert animated:YES completion:nil];
+*/
+    
+    STPopupController *popupController = [[STPopupController alloc] initWithRootViewController:[PopupViewController new]];
+    popupController.containerView.layer.cornerRadius = 4;
+    if (NSClassFromString(@"UIBlurEffect")) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        popupController.backgroundView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        popupController.backgroundView.alpha = 0.8; // This is not necessary
+    }
+    [popupController presentInViewController:self];
     
 }
 
