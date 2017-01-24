@@ -46,7 +46,7 @@
         {
             while (true) {
                 NSString *selectedword=[words objectAtIndex:arc4random()%[words count]];
-                if (![selectedWords containsObject:selectedword]) {
+                if (![selectedWords containsObject:selectedword] && [selectedword length]>2) {
                     [selectedWords addObject:selectedword];
                     wordRange.length=[selectedword length];
                     wordRange.location=wordRange.location+[sentence rangeOfString:selectedword].location;
