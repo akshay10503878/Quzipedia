@@ -12,4 +12,4 @@ step 5)You can click refresh button right upper corner to get new quiz any time.
 
 step 6) You can get your score on clicking job done button left top corner.On clicking you will get the score and options to continue the game or want to play a new game.
 
-step 7)If there is any error occured while downloading the text you will get an error msg and on pressing ok button the whole process will be refressed.
+step 7)If there is any error occured while downloading the text you will get an error msg and on pressing ok button the whole process will be refreshed.
