@@ -13,7 +13,8 @@
 
 +(WikiQuizContent *)ParseWikiText:(NSString *)wikiText{
 
-    
+    WikiQuizContent *WQC=[[WikiQuizContent alloc] init];
+
     //For Split into Sentences
     
     __block NSMutableArray *selectedWords=[[NSMutableArray alloc] init];
@@ -56,10 +57,13 @@
             }
             
         }
+        if ([selectedWords count]==10) {
+            WQC.wikiText=[wikiText substringWithRange:NSMakeRange(0, substringRange.location+substringRange.length)];
+            *stopSentence=YES;
+        }
         
     }];
     
-    WikiQuizContent *WQC=[[WikiQuizContent alloc] init];
     WQC.answers=selectedWords;
     
     WQC.shuffledOptions=[selectedWords shuffle];
@@ -67,11 +71,9 @@
     
     NSLog(@"%@",WQC.answers);
     NSLog(@"%@", WQC.shuffledOptions);
-    for (int i=0; i<[WQC.answerRanges count]; i++) {
-     NSLog(@"->%@",[wikiText substringWithRange:[[WQC.answerRanges objectAtIndex:i] rangeValue]]);
-    }
     NSLog(@"%@",WQC.answerRanges);
-    NSLog(@"%@",wikiText);
+    NSLog(@"%@",WQC.wikiText);
+    
     return WQC;
 }
 

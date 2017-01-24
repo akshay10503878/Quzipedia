@@ -42,18 +42,20 @@
                         
                         NSDictionary *pages= [[jsonResponse objectForKey:@"query"] objectForKey:@"pages"];
                         NSString *WikiExtract=[[pages objectForKey:[[pages allKeys] objectAtIndex:0]] objectForKey:@"extract"];
-
-                        NSLog(@"%@",WikiExtract);
-            
-                        /*
-                        NSError *error = nil;
-                        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"==[ a-z0-9]*==" options:NSRegularExpressionCaseInsensitive error:&error];
-                        NSString *modifiedString = [regex stringByReplacingMatchesInString:WikiExtract options:0 range:NSMakeRange(0, [WikiExtract length]) withTemplate:@""];
-                        NSLog(@"bcbf=>  %@", modifiedString);
-                        */
                         
-                        [self.delegate DownLoadCompletedWithData:WikiExtract];
-
+                        if ([WikiExtract length]>2000) {
+                            WikiExtract=[WikiExtract substringWithRange:NSMakeRange(0, 2000)];
+                            [self.delegate DownLoadCompletedWithData:WikiExtract];
+                        }
+                        else
+                        {
+                            [self DownloadData];
+                        }
+                    }
+                    else
+                    {
+                        NSLog(@"No Value for Key");
+                        
                     }
                     
                 }
@@ -70,6 +72,7 @@
     }] ;
     
     [postDataTask resume];
+    [session finishTasksAndInvalidate];
 }
 
 

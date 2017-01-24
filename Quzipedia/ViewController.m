@@ -16,8 +16,7 @@
     WikiQuizContent *WQC;
     NSRange selectedBlankCharacterRange;
     NSInteger selectedBlankIndex;
-    NSMutableArray *seletedAnswers;
-    
+    NSMutableDictionary *seletedAnswers;
 
 }
 
@@ -25,12 +24,15 @@
 @end
 
 @implementation ViewController
+
+
 - (IBAction)RefreshQuiz:(id)sender {
     
     seletedAnswers=nil;
     WQC=nil;
     self.WikiTextView.text=nil;
     [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
+    [self HideOptionsTableView];
     [TD DownloadData];
 
 
@@ -51,16 +53,16 @@
     [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
     [self rotateLayerInfinite:self.RefreshQuiz.layer];
     
-    //[self.optionsTableView setHidden:TRUE];
+    
     self.optionsTableView.delegate=self;
     self.optionsTableView.dataSource=self;
     self.optionsTableView.layer.cornerRadius=10;
     self.optionsTableView.clipsToBounds = YES;
     self.optionsTableView.layer.borderWidth = 2.0;
     self.optionsTableView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    
-   
+    self.optionsTableView.separatorColor = [UIColor whiteColor];
 }
+
 
 
 
@@ -81,11 +83,12 @@
 -(void)DownLoadCompletedWithData:(NSString *)WikiString
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-    
+        
         WQC= [TextParser ParseWikiText:WikiString];
         [self.ActivityIndicatorImage.layer removeAllAnimations];
-        [self AddBlankstoWikiText:WikiString];
-        seletedAnswers=[[NSMutableArray alloc] initWithCapacity:[WQC.answerRanges count]];
+        [self AddBlankstoWikiText:WQC.wikiText];
+        seletedAnswers=[[NSMutableDictionary alloc] init];
+        [self.optionsTableView reloadData];
     });
     
 }
@@ -96,6 +99,10 @@
 
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:wikiText];
     
+    UIFont *font = [UIFont fontWithName:@"Palatino-Roman" size:15.0];
+    [attributedString setAttributes:@{NSFontAttributeName:font} range:NSMakeRange(0, [wikiText length])];
+    
+    
     for (int i=(int)[WQC.answerRanges count]; i>0; i--) {
         
         [attributedString addAttribute:NSLinkAttributeName
@@ -104,17 +111,13 @@
         
         [attributedString replaceCharactersInRange:[[WQC.answerRanges objectAtIndex:i-1] rangeValue] withString:[NSString stringWithFormat:@"#%d_____",i]];
         
-        
-    }
+        }
     
     NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor orangeColor],
                                      NSUnderlineColorAttributeName: [UIColor lightGrayColor],
                                      NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
     
     self.WikiTextView.linkTextAttributes = linkAttributes;
-    
-    UIFont *font = [UIFont fontWithName:@"Palatino-Roman" size:15.0];
-    [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [wikiText length])];
     self.WikiTextView.attributedText = attributedString;
 
 }
@@ -123,37 +126,9 @@
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     if ([[URL scheme] isEqualToString:@"answer"]) {
         NSString *answerNo = [URL host];
-        NSLog(@"%@",answerNo);
         selectedBlankIndex=[answerNo integerValue];
         dispatch_async(dispatch_get_main_queue(), ^{
-           
-            if (self.optionsTableView.frame.size.height==0) {
-                [UIView animateWithDuration:0.5
-                                      delay:0.0
-                                    options: UIViewAnimationOptionCurveEaseIn
-                                 animations:^{
-                                     CGRect frame = self.optionsTableView.frame;
-                                     if ([WQC.shuffledOptions count]*40 > self.view.frame.size.height/2) {
-                                         frame.origin.y= frame.origin.y-self.view.frame.size.height/2;
-                                         frame.size.height = self.view.frame.size.height/2;
-                                         self.optionsTableView.frame = frame;
-                                     }
-                                     else
-                                     {
-                                         frame.origin.y= frame.origin.y-[WQC.shuffledOptions count]*40;
-                                         frame.size.height = [WQC.shuffledOptions count]*40;
-                                         self.optionsTableView.frame = frame;
-                                     
-                                     }
-                                     
-                                 }
-                                 completion:^(BOOL finished){
-                                     
-                                 }];
-                
-                [self.optionsTableView reloadData];
-            }
-           
+            [self ShowOptionsTableView];
             selectedBlankCharacterRange=characterRange;
 
         });
@@ -214,25 +189,59 @@
 
     [sampleText replaceCharactersInRange:selectedBlankCharacterRange withString:[NSString stringWithFormat:@"#%ld %@",(long)selectedBlankIndex,[WQC.shuffledOptions objectAtIndex:indexPath.row]]];
     
-    [seletedAnswers insertObject:[WQC.shuffledOptions objectAtIndex:indexPath.row] atIndex:selectedBlankIndex];
-    //seletedAnswers[selectedBlankIndex]=[WQC.shuffledOptions objectAtIndex:indexPath.row];
+    [seletedAnswers setValue:[WQC.shuffledOptions objectAtIndex:indexPath.row] forKey:[NSString stringWithFormat:@"%ld",(long)selectedBlankIndex]];
 
     self.WikiTextView.attributedText=sampleText;
+    [self HideOptionsTableView];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+}
+
+-(void)ShowOptionsTableView{
+    
+    if (self.optionsTableView.frame.size.height == 0) {
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options: UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             CGRect frame = self.optionsTableView.frame;
+                             if ([WQC.shuffledOptions count]*40 > self.view.frame.size.height/2) {
+                                 frame.origin.y= frame.origin.y-self.view.frame.size.height/2;
+                                 frame.size.height = self.view.frame.size.height/2;
+                                 self.optionsTableView.frame = frame;
+                             }
+                             else
+                             {
+                                 frame.origin.y= frame.origin.y-[WQC.shuffledOptions count]*40;
+                                 frame.size.height = [WQC.shuffledOptions count]*40;
+                                 self.optionsTableView.frame = frame;
+                                 
+                             }
+                             
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+    }
+
+
+}
+
+-(void)HideOptionsTableView{
+
+
     [UIView animateWithDuration:0.5
                           delay:0.0
                         options: UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          CGRect frame = self.optionsTableView.frame;
-                         frame.origin.y= frame.origin.y+[WQC.shuffledOptions count]*40;
+                         frame.origin.y= frame.origin.y+frame.size.height;
                          frame.size.height = 0;
                          self.optionsTableView.frame = frame;
                      }
                      completion:^(BOOL finished){
-                        
+                         
                      }];
-
-    
 
 }
 
