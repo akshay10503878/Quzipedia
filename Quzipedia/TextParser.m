@@ -16,7 +16,6 @@
     WikiQuizContent *WQC=[[WikiQuizContent alloc] init];
 
     //For Split into Sentences
-    
     __block NSMutableArray *selectedWords=[[NSMutableArray alloc] init];
     __block NSMutableArray *selectedwordRanges=[[NSMutableArray alloc] init];
     
@@ -39,8 +38,8 @@
                               if ([tag isEqualToString:@"Noun"]) {
                                   if (![words containsObject:[sentence substringWithRange:tokenRange]]) {
                                       [words addObject:[sentence substringWithRange:tokenRange]];
-                                  }
-                                                             }
+                                    }
+                               }
                           }];
         
         if([words count]>0)
@@ -65,15 +64,15 @@
     }];
     
     WQC.answers=selectedWords;
-    
     WQC.shuffledOptions=[selectedWords shuffle];
     WQC.answerRanges=selectedwordRanges;
     
+    /*
     NSLog(@"%@",WQC.answers);
     NSLog(@"%@", WQC.shuffledOptions);
     NSLog(@"%@",WQC.answerRanges);
     NSLog(@"%@",WQC.wikiText);
-    
+    */
     return WQC;
 }
 

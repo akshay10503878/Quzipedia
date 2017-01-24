@@ -26,7 +26,55 @@
 @implementation ViewController
 
 
+- (IBAction)SubmitQuizAnswer:(id)sender {
+
+    int marks=0;
+    for (int i=0; i<[WQC.answerRanges count]; i++) {
+        if ([[WQC.answers objectAtIndex:i] isEqualToString:[seletedAnswers valueForKey:[NSString stringWithFormat:@"%d",i]]]) {
+            marks++;
+        }
+    }
+    
+    /*UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Score Card" message: [NSString stringWithFormat:@"You Got %d Marks",marks] delegate:nil cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    
+    UIImage* imgMyImage = [UIImage imageNamed:@"pass.png"];
+    UIImageView* ivMyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imgMyImage.size.width, 100)];
+    [ivMyImageView setImage:imgMyImage];
+    
+    [alert setValue: ivMyImageView forKey:@"accessoryView"];
+    [alert show];
+    
+    */
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"Title"
+                                  message:@"Welcome"
+                                  preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* okButton = [UIAlertAction
+                               actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   //Do some thing here
+                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                   [self.RefreshQuiz sendActionsForControlEvents:UIControlEventTouchUpInside];
+                                   
+                               }];
+    //[okButton setValue:[[UIImage imageNamed:@"kaga.jpg"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
+    
+    [alert addAction:okButton];
+    [alert addchi]
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    
+}
+
+
 - (IBAction)RefreshQuiz:(id)sender {
+    
+    //Enabling the buttons
+    self.RefreshQuiz.enabled=false;
+    self.Submit.enabled=false;
     
     seletedAnswers=nil;
     WQC=nil;
@@ -42,13 +90,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    TD=[TextDownloader sharedInstance];
-    [TD DownloadData];
-    TD.delegate=self;
-    
     self.WikiTextView.text=nil;
     [self.WikiTextView setEditable:NO];
     self.WikiTextView.delegate = self;
+    
+    //Disabling the buttons
+    self.RefreshQuiz.enabled=false;
+    self.Submit.enabled=false;
     
     [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
     [self rotateLayerInfinite:self.RefreshQuiz.layer];
@@ -61,6 +109,13 @@
     self.optionsTableView.layer.borderWidth = 2.0;
     self.optionsTableView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     self.optionsTableView.separatorColor = [UIColor whiteColor];
+    
+
+    TD=[TextDownloader sharedInstance];
+    [TD DownloadData];
+    TD.delegate=self;
+    
+
 }
 
 
@@ -84,6 +139,10 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        //Enabling the buttons
+        self.RefreshQuiz.enabled=true;
+        self.Submit.enabled=true;
+
         WQC= [TextParser ParseWikiText:WikiString];
         [self.ActivityIndicatorImage.layer removeAllAnimations];
         [self AddBlankstoWikiText:WQC.wikiText];
