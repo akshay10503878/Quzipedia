@@ -38,6 +38,9 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBlack" family="Helvetica Neue" pointSize="17"/>
                                         <state key="normal" title="R" backgroundImage="logo.jpg"/>
+                                        <connections>
+                                            <action selector="RefreshQuiz:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c5e-eH-8gn"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3va-v1-9uX">
                                         <rect key="frame" x="10" y="10" width="60" height="35"/>
@@ -60,18 +63,65 @@
                                     <constraint firstAttribute="height" constant="55" id="nle-oi-tO7"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Blair Vincent Adams (born 8 September 1991) is an English left back. He graduated from Sunderland's Academy in summer 2010." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SCi-Ws-QSc">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SCi-Ws-QSc">
                                 <rect key="frame" x="10" y="85" width="355" height="572"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Blair Vincent Adams (born 8 September 1991) is an English left back. He graduated from Sunderland's Academy in summer 2010.">
+                                        <attributes>
+                                            <font key="NSFont" size="18" name="HelveticaNeue"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Eb0-ol-o3G">
+                                <rect key="frame" x="2" y="665" width="371" height="0.0"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="yYa-n3-R0u"/>
+                                </constraints>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OptionsTableViewCell" id="aZg-uF-v8b" customClass="OptionsTableViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="371" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aZg-uF-v8b" id="ZBH-qd-H5H">
+                                            <rect key="frame" x="0.0" y="0.0" width="371" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sjN-D4-phc">
+                                                    <rect key="frame" x="164.5" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sjN-D4-phc" firstAttribute="centerY" secondItem="ZBH-qd-H5H" secondAttribute="centerY" id="sKL-bo-pxY"/>
+                                                <constraint firstItem="sjN-D4-phc" firstAttribute="centerX" secondItem="ZBH-qd-H5H" secondAttribute="centerX" id="y9g-XI-8oT"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="option" destination="sjN-D4-phc" id="TOm-20-OUu"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="aNd-Sw-5qk"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="VQg-at-0Z0"/>
+                                </connections>
+                            </tableView>
                             <imageView userInteractionEnabled="NO" alpha="0.10000000000000001" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo2.png" translatesAutoresizingMaskIntoConstraints="NO" id="ePv-cz-zZo">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Eb0-ol-o3G" secondAttribute="trailing" constant="2" id="08E-Dy-OvB"/>
+                            <constraint firstAttribute="bottom" secondItem="Eb0-ol-o3G" secondAttribute="bottom" constant="2" id="10n-ZU-xsB"/>
                             <constraint firstItem="qmc-oz-hVx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="1gj-Cs-V5w"/>
                             <constraint firstItem="ePv-cz-zZo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="29p-ve-VKD"/>
                             <constraint firstAttribute="trailing" secondItem="qmc-oz-hVx" secondAttribute="trailing" id="BGi-EY-ok8"/>
@@ -79,6 +129,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="SCi-Ws-QSc" secondAttribute="bottom" constant="10" id="EZV-A8-5GN"/>
                             <constraint firstItem="ePv-cz-zZo" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="HvN-3p-L0v"/>
                             <constraint firstItem="SCi-Ws-QSc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="Mbp-Zj-Con"/>
+                            <constraint firstItem="Eb0-ol-o3G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="2" id="PgG-8W-agS"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ePv-cz-zZo" secondAttribute="bottom" id="RpJ-4j-jye"/>
                             <constraint firstItem="SCi-Ws-QSc" firstAttribute="top" secondItem="qmc-oz-hVx" secondAttribute="bottom" constant="10" id="THq-TW-ATF"/>
                             <constraint firstAttribute="trailing" secondItem="ePv-cz-zZo" secondAttribute="trailing" id="YKy-W4-6JY"/>
@@ -90,6 +141,7 @@
                         <outlet property="RefreshQuiz" destination="lDz-mr-SRE" id="vjP-JQ-8ez"/>
                         <outlet property="Submit" destination="3va-v1-9uX" id="Xne-FA-OTm"/>
                         <outlet property="WikiTextView" destination="SCi-Ws-QSc" id="Lex-ht-IaF"/>
+                        <outlet property="optionsTableView" destination="Eb0-ol-o3G" id="DUh-eV-xtB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

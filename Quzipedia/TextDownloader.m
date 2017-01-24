@@ -22,8 +22,8 @@
 -(void)DownloadData
 {
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSURL *url = [NSURL URLWithString:@"https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=extracts&exsentences=10&explaintext="];
-    
+    NSURL *url = [NSURL URLWithString:@"https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=extracts&explaintext="];
+    //https://en.wikipedia.org/w/api.php?format=json&generator=random&grnnamespace=0&action=query&prop=extracts&explaintext&redirects=
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -44,6 +44,14 @@
                         NSString *WikiExtract=[[pages objectForKey:[[pages allKeys] objectAtIndex:0]] objectForKey:@"extract"];
 
                         NSLog(@"%@",WikiExtract);
+            
+                        /*
+                        NSError *error = nil;
+                        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"==[ a-z0-9]*==" options:NSRegularExpressionCaseInsensitive error:&error];
+                        NSString *modifiedString = [regex stringByReplacingMatchesInString:WikiExtract options:0 range:NSMakeRange(0, [WikiExtract length]) withTemplate:@""];
+                        NSLog(@"bcbf=>  %@", modifiedString);
+                        */
+                        
                         [self.delegate DownLoadCompletedWithData:WikiExtract];
 
                     }

@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WikiQuizContent.h"
 
 @interface TextParser : NSObject
 
-+(void)ParseWikiText:(NSString *)wikiText;
++(WikiQuizContent *)ParseWikiText:(NSString *)wikiText;
 
 @end

@@ -7,24 +7,58 @@
 //
 
 #import "ViewController.h"
+#import "WikiQuizContent.h"
+#import "OptionsTableViewCell.h"
 
 @interface ViewController ()
+{
+    TextDownloader *TD;
+    WikiQuizContent *WQC;
+    NSRange selectedBlankCharacterRange;
+    NSInteger selectedBlankIndex;
+    NSMutableArray *seletedAnswers;
+    
+
+}
+
 
 @end
 
 @implementation ViewController
+- (IBAction)RefreshQuiz:(id)sender {
+    
+    seletedAnswers=nil;
+    WQC=nil;
+    self.WikiTextView.text=nil;
+    [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
+    [TD DownloadData];
+
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    TextDownloader *obj=[TextDownloader sharedInstance];
-    [obj DownloadData];
-    obj.delegate=self;
+    TD=[TextDownloader sharedInstance];
+    [TD DownloadData];
+    TD.delegate=self;
     
     self.WikiTextView.text=nil;
+    [self.WikiTextView setEditable:NO];
+    self.WikiTextView.delegate = self;
+    
     [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
     [self rotateLayerInfinite:self.RefreshQuiz.layer];
+    
+    //[self.optionsTableView setHidden:TRUE];
+    self.optionsTableView.delegate=self;
+    self.optionsTableView.dataSource=self;
+    self.optionsTableView.layer.cornerRadius=10;
+    self.optionsTableView.clipsToBounds = YES;
+    self.optionsTableView.layer.borderWidth = 2.0;
+    self.optionsTableView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    
    
 }
 
@@ -48,19 +82,158 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
     
+        WQC= [TextParser ParseWikiText:WikiString];
         [self.ActivityIndicatorImage.layer removeAllAnimations];
-        self.WikiTextView.text=WikiString;
-        [TextParser ParseWikiText:WikiString];
-        
+        [self AddBlankstoWikiText:WikiString];
+        seletedAnswers=[[NSMutableArray alloc] initWithCapacity:[WQC.answerRanges count]];
     });
     
 }
+
+
+-(void)AddBlankstoWikiText:(NSString*)wikiText
+{
+
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:wikiText];
+    
+    for (int i=(int)[WQC.answerRanges count]; i>0; i--) {
+        
+        [attributedString addAttribute:NSLinkAttributeName
+                                 value:[NSString stringWithFormat:@"answer://%d",i]
+                                 range:[WQC.answerRanges[i-1] rangeValue]];
+        
+        [attributedString replaceCharactersInRange:[[WQC.answerRanges objectAtIndex:i-1] rangeValue] withString:[NSString stringWithFormat:@"#%d_____",i]];
+        
+        
+    }
+    
+    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor orangeColor],
+                                     NSUnderlineColorAttributeName: [UIColor lightGrayColor],
+                                     NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+    
+    self.WikiTextView.linkTextAttributes = linkAttributes;
+    
+    UIFont *font = [UIFont fontWithName:@"Palatino-Roman" size:15.0];
+    [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [wikiText length])];
+    self.WikiTextView.attributedText = attributedString;
+
+}
+
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([[URL scheme] isEqualToString:@"answer"]) {
+        NSString *answerNo = [URL host];
+        NSLog(@"%@",answerNo);
+        selectedBlankIndex=[answerNo integerValue];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+            if (self.optionsTableView.frame.size.height==0) {
+                [UIView animateWithDuration:0.5
+                                      delay:0.0
+                                    options: UIViewAnimationOptionCurveEaseIn
+                                 animations:^{
+                                     CGRect frame = self.optionsTableView.frame;
+                                     if ([WQC.shuffledOptions count]*40 > self.view.frame.size.height/2) {
+                                         frame.origin.y= frame.origin.y-self.view.frame.size.height/2;
+                                         frame.size.height = self.view.frame.size.height/2;
+                                         self.optionsTableView.frame = frame;
+                                     }
+                                     else
+                                     {
+                                         frame.origin.y= frame.origin.y-[WQC.shuffledOptions count]*40;
+                                         frame.size.height = [WQC.shuffledOptions count]*40;
+                                         self.optionsTableView.frame = frame;
+                                     
+                                     }
+                                     
+                                 }
+                                 completion:^(BOOL finished){
+                                     
+                                 }];
+                
+                [self.optionsTableView reloadData];
+            }
+           
+            selectedBlankCharacterRange=characterRange;
+
+        });
+        return NO;
+    }
+    return NO; // let the system open this URL
+}
+
 
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//table view
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
+    
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (WQC) {
+        return [WQC.shuffledOptions count];
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    OptionsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"OptionsTableViewCell"];
+    if (cell==nil) {
+        cell=[[OptionsTableViewCell alloc] init];
+    }
+    if (WQC) {
+        cell.option.text=[WQC.shuffledOptions objectAtIndex:indexPath.row];
+    }
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    NSMutableAttributedString *sampleText = [[NSMutableAttributedString alloc] initWithAttributedString:self.WikiTextView.attributedText];
+
+    [sampleText replaceCharactersInRange:selectedBlankCharacterRange withString:[NSString stringWithFormat:@"#%ld %@",(long)selectedBlankIndex,[WQC.shuffledOptions objectAtIndex:indexPath.row]]];
+    
+    [seletedAnswers insertObject:[WQC.shuffledOptions objectAtIndex:indexPath.row] atIndex:selectedBlankIndex];
+    //seletedAnswers[selectedBlankIndex]=[WQC.shuffledOptions objectAtIndex:indexPath.row];
+
+    self.WikiTextView.attributedText=sampleText;
+    
+    [UIView animateWithDuration:0.5
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect frame = self.optionsTableView.frame;
+                         frame.origin.y= frame.origin.y+[WQC.shuffledOptions count]*40;
+                         frame.size.height = 0;
+                         self.optionsTableView.frame = frame;
+                     }
+                     completion:^(BOOL finished){
+                        
+                     }];
+
+    
+
 }
 
 

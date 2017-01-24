@@ -7,13 +7,13 @@
 //
 
 #import "TextParser.h"
-#import "WikiQuizContent.h"
 #import "NSMutableArray+Shuffling.h"
 
 @implementation TextParser
 
-+(void)ParseWikiText:(NSString *)wikiText{
++(WikiQuizContent *)ParseWikiText:(NSString *)wikiText{
 
+    
     //For Split into Sentences
     
     __block NSMutableArray *selectedWords=[[NSMutableArray alloc] init];
@@ -59,7 +59,7 @@
         
     }];
     
-    WikiQuizContent *WQC=[WikiQuizContent sharedInstance];
+    WikiQuizContent *WQC=[[WikiQuizContent alloc] init];
     WQC.answers=selectedWords;
     
     WQC.shuffledOptions=[selectedWords shuffle];
@@ -67,15 +67,12 @@
     
     NSLog(@"%@",WQC.answers);
     NSLog(@"%@", WQC.shuffledOptions);
+    for (int i=0; i<[WQC.answerRanges count]; i++) {
+     NSLog(@"->%@",[wikiText substringWithRange:[[WQC.answerRanges objectAtIndex:i] rangeValue]]);
+    }
     NSLog(@"%@",WQC.answerRanges);
     NSLog(@"%@",wikiText);
-    
-    
-    
-    
-    
-
-
+    return WQC;
 }
 
 @end
