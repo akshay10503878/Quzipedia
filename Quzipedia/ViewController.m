@@ -1,4 +1,4 @@
-//
+    //
 //  ViewController.m
 //  Quzipedia
 //
@@ -9,8 +9,6 @@
 #import "ViewController.h"
 #import "WikiQuizContent.h"
 #import "OptionsTableViewCell.h"
-#import "STPopup/STPopup.h"
-#import "PopupViewController.h"
 
 @interface ViewController ()
 {
@@ -27,76 +25,6 @@
 
 @implementation ViewController
 
-
-- (IBAction)SubmitQuizAnswer:(id)sender {
-
-    int marks=0;
-    for (int i=0; i<[WQC.answerRanges count]; i++) {
-        if ([[WQC.answers objectAtIndex:i] isEqualToString:[seletedAnswers valueForKey:[NSString stringWithFormat:@"%d",i]]]) {
-            marks++;
-        }
-    }
-    
-    /*UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Score Card" message: [NSString stringWithFormat:@"You Got %d Marks",marks] delegate:nil cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-    
-    UIImage* imgMyImage = [UIImage imageNamed:@"pass.png"];
-    UIImageView* ivMyImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, imgMyImage.size.width, 100)];
-    [ivMyImageView setImage:imgMyImage];
-    
-    [alert setValue: ivMyImageView forKey:@"accessoryView"];
-    [alert show];
-    
-    */
-    /*
-    UIAlertController * alert=   [UIAlertController
-                                  alertControllerWithTitle:@"Title"
-                                  message:@"Welcome"
-                                  preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* okButton = [UIAlertAction
-                               actionWithTitle:@"OK"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction * action)
-                               {
-                                   //Do some thing here
-                                   [alert dismissViewControllerAnimated:YES completion:nil];
-                                   [self.RefreshQuiz sendActionsForControlEvents:UIControlEventTouchUpInside];
-                                   
-
-   // [okButton setValue:[[UIImage imageNamed:@"pass.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
-
-    [alert addAction:okButton];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-*/
-    
-    STPopupController *popupController = [[STPopupController alloc] initWithRootViewController:[PopupViewController new]];
-    popupController.containerView.layer.cornerRadius = 4;
-    if (NSClassFromString(@"UIBlurEffect")) {
-        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-        popupController.backgroundView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        popupController.backgroundView.alpha = 0.8; // This is not necessary
-    }
-    [popupController presentInViewController:self];
-    
-}
-
-
-- (IBAction)RefreshQuiz:(id)sender {
-    
-    //Enabling the buttons
-    self.RefreshQuiz.enabled=false;
-    self.Submit.enabled=false;
-    
-    seletedAnswers=nil;
-    WQC=nil;
-    self.WikiTextView.text=nil;
-    [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
-    [self HideOptionsTableView];
-    [TD DownloadData];
-
-
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -127,10 +55,39 @@
     [TD DownloadData];
     TD.delegate=self;
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ShowError) name:@"Error" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RefreshQuiz) name:@"RefreshQuiz" object:nil];
+    
+    
 
 }
 
 
+
+-(void)ShowError
+{
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"ERROR!"
+                                  message:@"Press Ok to Refresh"
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* okButton = [UIAlertAction
+                               actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   //Do some thing here
+                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                   [self.RefreshQuiz sendActionsForControlEvents:UIControlEventTouchUpInside];
+                                   
+                               }];
+    
+    [alert addAction:okButton];
+    [self presentViewController:alert animated:YES completion:nil];
+
+}
 
 
 - (void)rotateLayerInfinite:(CALayer *)layer
@@ -156,10 +113,17 @@
         self.Submit.enabled=true;
 
         WQC= [TextParser ParseWikiText:WikiString];
-        [self.ActivityIndicatorImage.layer removeAllAnimations];
-        [self AddBlankstoWikiText:WQC.wikiText];
-        seletedAnswers=[[NSMutableDictionary alloc] init];
-        [self.optionsTableView reloadData];
+        if (WQC) {
+            [self.ActivityIndicatorImage.layer removeAllAnimations];
+            [self AddBlankstoWikiText:WQC.wikiText];
+            seletedAnswers=[[NSMutableDictionary alloc] init];
+            [self.optionsTableView reloadData];
+        }
+        else
+        {
+            [self.RefreshQuiz sendActionsForControlEvents:UIControlEventTouchUpInside];
+            
+        }
     });
     
 }
@@ -205,7 +169,7 @@
         });
         return NO;
     }
-    return NO; // let the system open this URL
+    return NO;
 }
 
 
@@ -215,6 +179,68 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+- (IBAction)SubmitQuizAnswer:(id)sender {
+    
+    int marks=0;
+    for (int i=0; i<[WQC.answerRanges count]; i++) {
+        if ([[WQC.answers objectAtIndex:i] isEqualToString:[seletedAnswers valueForKey:[NSString stringWithFormat:@"%d",i]]]) {
+            marks++;
+        }
+    }
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"Score Baord!"
+                                  message:[NSString stringWithFormat:@"You got %d marks",marks]
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* okButton = [UIAlertAction
+                               actionWithTitle:@"NewGame"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   //Do some thing here
+                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                   [self.RefreshQuiz sendActionsForControlEvents:UIControlEventTouchUpInside];
+                                   
+                               }];
+    
+    UIAlertAction* backButton = [UIAlertAction
+                               actionWithTitle:@"Back"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                
+                                   
+                               }];
+    [alert addAction:backButton];
+    [alert addAction:okButton];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
+
+}
+
+
+- (IBAction)RefreshQuiz:(id)sender {
+    
+    //Enabling the buttons
+    self.RefreshQuiz.enabled=false;
+    self.Submit.enabled=false;
+    
+    seletedAnswers=nil;
+    WQC=nil;
+    self.WikiTextView.text=nil;
+    [self rotateLayerInfinite:self.ActivityIndicatorImage.layer];
+    [self HideOptionsTableView];
+    [TD DownloadData];
+    
+    
+}
+
+
 
 //table view
 

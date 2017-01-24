@@ -67,12 +67,18 @@
     WQC.shuffledOptions=[selectedWords shuffle];
     WQC.answerRanges=selectedwordRanges;
     
+    
     /*
-    NSLog(@"%@",WQC.answers);
-    NSLog(@"%@", WQC.shuffledOptions);
-    NSLog(@"%@",WQC.answerRanges);
-    NSLog(@"%@",WQC.wikiText);
-    */
+     NSLog(@"%@",WQC.answers);
+     NSLog(@"%@", WQC.shuffledOptions);
+     NSLog(@"%@",WQC.answerRanges);
+     NSLog(@"%@",WQC.wikiText);
+     */
+    
+    if ([selectedWords count]!=10) {
+        return nil;
+    }
+    
     return WQC;
 }
 

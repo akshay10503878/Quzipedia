@@ -54,17 +54,20 @@
                     else
                     {
                         NSLog(@"No Value for Key");
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"Error" object:nil];
                     }
                 }
             }
             else
             {
                 NSLog(@"Response Error");
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"Error" object:nil];
             }
         }
         else
         {
             NSLog(@"error : %@", error.description);
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"Error" object:nil];
         }
     }] ;
     
