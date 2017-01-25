@@ -2,7 +2,7 @@
 
 step 1) Load the random text from wiki page (until it get min 10 sentences)
 
-step 2) Then it Process the WikiText to extract 10 random words(test case: Nouns),their ranges and the final wikiText.
+step 2) Then it Process the WikiText to extract 10 random words(test case: Nouns,min of word length 2(we can set the upper limit as per difficulty level)),their ranges and the final wikiText.
 
 step 3) Replace the words with the Blanks(Clickable).
 
