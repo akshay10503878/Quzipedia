@@ -18,7 +18,6 @@
 		305C93681E33C474006810A3 /* TextDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C93671E33C474006810A3 /* TextDownloader.m */; };
 		305C936B1E352D2A006810A3 /* TextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C936A1E352D2A006810A3 /* TextParser.m */; };
 		305C936E1E352F23006810A3 /* WikiQuizContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 305C936D1E352F23006810A3 /* WikiQuizContent.m */; };
-		305C93741E3532E5006810A3 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 305C93731E3532E5006810A3 /* refresh.png */; };
 		305C93761E3533EC006810A3 /* logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 305C93751E3533EC006810A3 /* logo.jpg */; };
 		305C93781E353851006810A3 /* done.png in Resources */ = {isa = PBXBuildFile; fileRef = 305C93771E353851006810A3 /* done.png */; };
 		305C937A1E35394C006810A3 /* done (1).png in Resources */ = {isa = PBXBuildFile; fileRef = 305C93791E35394C006810A3 /* done (1).png */; };
@@ -70,7 +69,6 @@
 		305C936A1E352D2A006810A3 /* TextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextParser.m; sourceTree = "<group>"; };
 		305C936C1E352F23006810A3 /* WikiQuizContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiQuizContent.h; sourceTree = "<group>"; };
 		305C936D1E352F23006810A3 /* WikiQuizContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiQuizContent.m; sourceTree = "<group>"; };
-		305C93731E3532E5006810A3 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refresh.png; path = Images/refresh.png; sourceTree = "<group>"; };
 		305C93751E3533EC006810A3 /* logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo.jpg; sourceTree = "<group>"; };
 		305C93771E353851006810A3 /* done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done.png; sourceTree = "<group>"; };
 		305C93791E35394C006810A3 /* done (1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "done (1).png"; sourceTree = "<group>"; };
@@ -132,26 +130,17 @@
 		305C93321E33C1B7006810A3 /* Quzipedia */ = {
 			isa = PBXGroup;
 			children = (
+				306166731E389DAE002C07FC /* AppDelegate */,
+				306166711E389D6F002C07FC /* MainViewController */,
+				306166721E389D8F002C07FC /* WikiTextDownloader&Parser */,
+				306166741E389DBF002C07FC /* QuizDataStructure */,
+				306166751E389DE8002C07FC /* NSmutableArray+Shuffling */,
 				305C93721E3532DB006810A3 /* Images */,
-				305C93361E33C1B7006810A3 /* AppDelegate.h */,
-				305C93371E33C1B7006810A3 /* AppDelegate.m */,
-				305C93391E33C1B7006810A3 /* ViewController.h */,
-				305C933A1E33C1B7006810A3 /* ViewController.m */,
 				305C933C1E33C1B7006810A3 /* Main.storyboard */,
 				305C933F1E33C1B7006810A3 /* Assets.xcassets */,
 				305C93411E33C1B7006810A3 /* LaunchScreen.storyboard */,
 				305C93441E33C1B7006810A3 /* Info.plist */,
 				305C93331E33C1B7006810A3 /* Supporting Files */,
-				305C93661E33C474006810A3 /* TextDownloader.h */,
-				305C93671E33C474006810A3 /* TextDownloader.m */,
-				305C93691E352D2A006810A3 /* TextParser.h */,
-				305C936A1E352D2A006810A3 /* TextParser.m */,
-				305C936C1E352F23006810A3 /* WikiQuizContent.h */,
-				305C936D1E352F23006810A3 /* WikiQuizContent.m */,
-				305C93831E354BB7006810A3 /* NSMutableArray+Shuffling.h */,
-				305C93841E354BB7006810A3 /* NSMutableArray+Shuffling.m */,
-				305C93861E3677E5006810A3 /* OptionsTableViewCell.h */,
-				305C93871E3677E5006810A3 /* OptionsTableViewCell.m */,
 			);
 			path = Quzipedia;
 			sourceTree = "<group>";
@@ -192,9 +181,57 @@
 				305C93771E353851006810A3 /* done.png */,
 				305C93751E3533EC006810A3 /* logo.jpg */,
 				305C93791E35394C006810A3 /* done (1).png */,
-				305C93731E3532E5006810A3 /* refresh.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		306166711E389D6F002C07FC /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				305C93391E33C1B7006810A3 /* ViewController.h */,
+				305C933A1E33C1B7006810A3 /* ViewController.m */,
+				305C93861E3677E5006810A3 /* OptionsTableViewCell.h */,
+				305C93871E3677E5006810A3 /* OptionsTableViewCell.m */,
+			);
+			name = MainViewController;
+			sourceTree = "<group>";
+		};
+		306166721E389D8F002C07FC /* WikiTextDownloader&Parser */ = {
+			isa = PBXGroup;
+			children = (
+				305C93661E33C474006810A3 /* TextDownloader.h */,
+				305C93671E33C474006810A3 /* TextDownloader.m */,
+				305C93691E352D2A006810A3 /* TextParser.h */,
+				305C936A1E352D2A006810A3 /* TextParser.m */,
+			);
+			name = "WikiTextDownloader&Parser";
+			sourceTree = "<group>";
+		};
+		306166731E389DAE002C07FC /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				305C93361E33C1B7006810A3 /* AppDelegate.h */,
+				305C93371E33C1B7006810A3 /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		306166741E389DBF002C07FC /* QuizDataStructure */ = {
+			isa = PBXGroup;
+			children = (
+				305C936C1E352F23006810A3 /* WikiQuizContent.h */,
+				305C936D1E352F23006810A3 /* WikiQuizContent.m */,
+			);
+			name = QuizDataStructure;
+			sourceTree = "<group>";
+		};
+		306166751E389DE8002C07FC /* NSmutableArray+Shuffling */ = {
+			isa = PBXGroup;
+			children = (
+				305C93831E354BB7006810A3 /* NSMutableArray+Shuffling.h */,
+				305C93841E354BB7006810A3 /* NSMutableArray+Shuffling.m */,
+			);
+			name = "NSmutableArray+Shuffling";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,7 +345,6 @@
 				305C937C1E353ABF006810A3 /* pass.png in Resources */,
 				305C93801E353ACA006810A3 /* fail1.jpeg in Resources */,
 				305C937E1E353AC5006810A3 /* fail2.jpg in Resources */,
-				305C93741E3532E5006810A3 /* refresh.png in Resources */,
 				305C93401E33C1B7006810A3 /* Assets.xcassets in Resources */,
 				305C937A1E35394C006810A3 /* done (1).png in Resources */,
 				305C93821E353C77006810A3 /* logo2.png in Resources */,
