@@ -13,3 +13,10 @@ step 5)You can click refresh button right upper corner to get new quiz any time.
 step 6) You can get your score on clicking job done button left top corner.On clicking you will get the score and options to continue the game or want to play a new game.
 
 step 7)If there is any error occured while downloading the text you will get an error msg and on pressing ok button the whole process will be refreshed.
+
+
+                                                Screenshots
+                                                
+            ![ScreenShot](https://github.com/akshay10503878/Quzipedia/blob/master/Screen%20Shot%202017-09-23%20at%205.58.10%20PM.png?raw=true)
+            
+            
