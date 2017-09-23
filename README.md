@@ -16,7 +16,9 @@ step 7)If there is any error occured while downloading the text you will get an 
 
 
                                                 Screenshots
-                                                
-            ![ScreenShot](https://github.com/akshay10503878/Quzipedia/blob/master/Screen%20Shot%202017-09-23%20at%205.58.10%20PM.png?raw=true)
-            
-            
+
+![Alt text](/quizipediaScreenshot/MainScreen.png?raw=true  "MainScreen")   
+![Alt text](/quizipediaScreenshot/loadingScreen.png?raw=true  "LoadingScreen")   
+![Alt text](/quizipediaScreenshot/optionScreen.png?raw=true  "OptionScreen")   
+![Alt text](/quizipediaScreenshot/scoreBoard.png?raw=true  "Scoreboard")   
+
