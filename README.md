@@ -17,8 +17,5 @@ step 7)If there is any error occured while downloading the text you will get an 
 
                                                 Screenshots
 
-![Alt text](/quizipediaScreenshot/MainScreen.png?raw=true  "MainScreen")   
-![Alt text](/quizipediaScreenshot/loadingScreen.png?raw=true  "LoadingScreen")   
-![Alt text](/quizipediaScreenshot/optionScreen.png?raw=true  "OptionScreen")   
-![Alt text](/quizipediaScreenshot/scoreBoard.png?raw=true  "Scoreboard")   
+![Alt text](/quizipediaScreenshot/MainScreen.png?raw=true  "MainScreen")    ![Alt text](/quizipediaScreenshot/loadingScreen.png?raw=true  "LoadingScreen")     ![Alt text](/quizipediaScreenshot/optionScreen.png?raw=true  "OptionScreen")     ![Alt text](/quizipediaScreenshot/scoreBoard.png?raw=true  "Scoreboard")   
 
